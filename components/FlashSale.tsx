@@ -1,10 +1,10 @@
 import ProductCard from "./ProductCard";
 
 const flashSaleProducts = [
-  { name: "Qorii", price: 120, oldPrice: 160, discount: 40, image: "/gamepad.png" },
-  { name: "Ak-900 Wired Keyboard", price: 96, oldPrice: 116, discount: 5, image: "/keyboard.png" },
-  { name: "IPS LCD Monitor", price: 370, oldPrice: 400, discount: 10, image: "/monitor.png" },
-  { name: "S-Series Comfort Chair", price: 375, oldPrice: 400, discount: 25, image: "/chair.png" },
+  { name: "Qorii", price: 120, oldPrice: 160, discount: 40, image: "qorii.png" },
+  { name: "Madiba Shirt", price: 96, oldPrice: 116, discount: 5, image: "/Madiba Shirt (South Africa).png" },
+  { name: "Zulu Shield and Spear", price: 370, oldPrice: 400, discount: 10, image: "/Zulu shield and spear.png" },
+  { name: "Liputa (DRC)", price: 375, oldPrice: 400, discount: 25, image: "/Liputa (DRC).png" },
 ];
 
 export default function FlashSale() {
