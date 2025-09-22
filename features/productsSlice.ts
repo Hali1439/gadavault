@@ -1,67 +1,108 @@
+// features/productsSlice.ts
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
-import { fetchProducts, fetchProductById } from "../utils/api";
+import api from "@/utils/api";
+import { Product } from "@/types/product";
 
-type Product = {
-  id: string;
-  name: string;
-  price: number;
-  image: string;
-};
-
-type ProductsState = {
+interface ProductsState {
   items: Product[];
+  selectedProduct: Product | null;
   loading: boolean;
   error: string | null;
-};
+}
 
 const initialState: ProductsState = {
   items: [],
+  selectedProduct: null,
   loading: false,
   error: null,
 };
 
-// Async thunks
-export const loadProducts = createAsyncThunk("products/load", async () => {
-  const data = await fetchProducts();
-  return data as Product[];
+// --- Fetch all products (optionally by category slug) ---
+export const fetchProducts = createAsyncThunk<
+  Product[],
+  string | undefined,
+  { rejectValue: string }
+>("products/fetchAll", async (categorySlug, { rejectWithValue }) => {
+  try {
+    const endpoint = categorySlug
+      ? `/products/?category=${categorySlug}`
+      : "/products/";
+    const response = await api.get<Product[]>(endpoint);
+    return response.data;
+  } catch (err: any) {
+    return rejectWithValue(err.response?.data?.detail || "Failed to fetch products");
+  }
 });
 
-export const loadProductById = createAsyncThunk(
-  "products/loadById",
-  async (id: string) => {
-    const data = await fetchProductById(id);
-    return data as Product;
+// --- Fetch by ID ---
+export const fetchProductById = createAsyncThunk<
+  Product,
+  string,
+  { rejectValue: string }
+>("products/fetchById", async (id, { rejectWithValue }) => {
+  try {
+    const response = await api.get<Product>(`/products/${id}/`);
+    return response.data;
+  } catch (err: any) {
+    return rejectWithValue(err.response?.data?.detail || "Failed to fetch product");
   }
-);
+});
+
+// --- Fetch by Slug ---
+export const fetchProductBySlug = createAsyncThunk<
+  Product,
+  string,
+  { rejectValue: string }
+>("products/fetchBySlug", async (slug, { rejectWithValue }) => {
+  try {
+    const response = await api.get<Product>(`/products/${slug}/`);
+    return response.data;
+  } catch (err: any) {
+    return rejectWithValue(err.response?.data?.detail || "Failed to fetch product");
+  }
+});
 
 const productsSlice = createSlice({
   name: "products",
   initialState,
   reducers: {
-    addProduct: (state, action: PayloadAction<Product>) => {
+    addProduct(state, action: PayloadAction<Product>) {
       state.items.push(action.payload);
+    },
+    clearSelectedProduct(state) {
+      state.selectedProduct = null;
     },
   },
   extraReducers: (builder) => {
-    builder
-      .addCase(loadProducts.pending, (state) => {
-        state.loading = true;
-        state.error = null;
-      })
-      .addCase(loadProducts.fulfilled, (state, action) => {
-        state.items = action.payload;
-        state.loading = false;
-      })
-      .addCase(loadProducts.rejected, (state, action) => {
-        state.error = action.error.message || "Failed to load products";
-        state.loading = false;
-      })
-      .addCase(loadProductById.fulfilled, (state, action) => {
-        const existing = state.items.find((p) => p.id === action.payload.id);
-        if (!existing) state.items.push(action.payload);
-      });
+    // --- fetchProducts ---
+    builder.addCase(fetchProducts.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+    });
+    builder.addCase(fetchProducts.fulfilled, (state, action) => {
+      state.loading = false;
+      state.items = action.payload;
+    });
+    builder.addCase(fetchProducts.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.payload || "Failed to load products";
+    });
+
+    // --- fetchProductById ---
+    builder.addCase(fetchProductById.fulfilled, (state, action) => {
+      state.selectedProduct = action.payload;
+      const exists = state.items.find((p) => p.id === action.payload.id);
+      if (!exists) state.items.push(action.payload);
+    });
+
+    // --- fetchProductBySlug ---
+    builder.addCase(fetchProductBySlug.fulfilled, (state, action) => {
+      state.selectedProduct = action.payload;
+      const exists = state.items.find((p) => p.id === action.payload.id);
+      if (!exists) state.items.push(action.payload);
+    });
   },
 });
 
-export const { addProduct } = productsSlice.actions;
+export const { addProduct, clearSelectedProduct } = productsSlice.actions;
 export default productsSlice.reducer;

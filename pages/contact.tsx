@@ -1,76 +1,74 @@
-// pages/contact.tsx
-import React, { useState } from "react";
+import { useState } from "react";
 
-const Contact = () => {
-  const [form, setForm] = useState({ name: "", email: "", message: "" });
+export default function ContactPage() {
+  const [formData, setFormData] = useState({ name: "", email: "", message: "" });
   const [status, setStatus] = useState<string | null>(null);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
+    setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setStatus("loading");
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/contact/`, {
+      const res = await fetch("http://127.0.0.1:8000/api/users/contact/", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form),
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
       });
+
       if (res.ok) {
-        setStatus("success");
-        setForm({ name: "", email: "", message: "" });
+        setStatus("✅ Message sent successfully!");
+        setFormData({ name: "", email: "", message: "" });
       } else {
-        setStatus("error");
+        const errData = await res.json().catch(() => ({}));
+        console.error("Backend error:", errData);
+        setStatus("❌ Something went wrong.");
       }
     } catch (err) {
-      setStatus("error");
+      console.error(err);
+      setStatus("⚠️ Network error. Try again later.");
     }
   };
 
   return (
-    <div className="max-w-lg mx-auto py-12 px-6">
-      <h1 className="text-3xl font-bold mb-6">Contact Us</h1>
-      <form onSubmit={handleSubmit} className="space-y-4">
+    <div className="container mx-auto py-10">
+      <h1 className="text-2xl font-bold mb-4">Contact Us</h1>
+      <form onSubmit={handleSubmit} className="flex flex-col gap-4 max-w-md">
         <input
+          type="text"
           name="name"
           placeholder="Your Name"
-          value={form.name}
+          value={formData.name}
           onChange={handleChange}
-          className="w-full border px-4 py-2 rounded"
+          className="border p-2 rounded"
           required
         />
         <input
-          name="email"
           type="email"
+          name="email"
           placeholder="Your Email"
-          value={form.email}
+          value={formData.email}
           onChange={handleChange}
-          className="w-full border px-4 py-2 rounded"
+          className="border p-2 rounded"
           required
         />
         <textarea
           name="message"
           placeholder="Your Message"
-          value={form.message}
+          value={formData.message}
           onChange={handleChange}
-          className="w-full border px-4 py-2 rounded"
-          rows={4}
+          className="border p-2 rounded"
+          rows={5}
           required
         />
-        <button
-          type="submit"
-          className="bg-purple-700 text-white px-6 py-2 rounded hover:bg-purple-800"
-        >
+        <button type="submit" className="bg-blue-600 text-white p-2 rounded">
           Send Message
         </button>
       </form>
-      {status === "loading" && <p className="mt-4">Sending...</p>}
-      {status === "success" && <p className="mt-4 text-green-600">Message sent successfully!</p>}
-      {status === "error" && <p className="mt-4 text-red-600">Something went wrong. Please try again.</p>}
+      {status && <p className="mt-4">{status}</p>}
     </div>
   );
-};
-
-export default Contact;
+}

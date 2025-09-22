@@ -1,4 +1,4 @@
-import ProductCard from "./ProductCard";
+import ProductCard from "@/products/ProductCard";
 
 const flashSaleProducts = [
   { name: "Qorii", price: 120, oldPrice: 160, discount: 40, image: "qorii.png" },
