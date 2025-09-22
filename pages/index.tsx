@@ -1,28 +1,53 @@
 // pages/index.tsx
-import Header from "@/components/layout/Header";
-import Banner from "@/components/layout/Banner";
-import FlashSale from "@/components/layout/FlashSale";
-import { ProductsList } from "@/components/products/ProductsList";
-import Footer from "@/components/layout/Footer";
+import { NextPage } from 'next'
+import Head from 'next/head'
+import Image from 'next/image'
+import Link from 'next/link'
 
-export default function Home() {
+const Home: NextPage = () => {
   return (
-    <div className="min-h-screen bg-gray-50">
-      <Header />
+    <>
+      <Head>
+        <title>Gada Vault | Home</title>
+        <meta
+          name="description"
+          content="Discover and shop authentic African traditional products on Gada Vault."
+        />
+        <meta property="og:title" content="Gada Vault" />
+        <meta
+          property="og:description"
+          content="A vault of African traditional crafts, connecting buyers, sellers, and designers."
+        />
+      </Head>
 
-      {/* Hero / Banner */}
-      <Banner />
+      <main className="min-h-screen flex flex-col items-center justify-center p-6 bg-gray-50 text-center">
+        <h1 className="text-4xl font-bold text-gray-900 mb-6">
+          Welcome to Gada Vault
+        </h1>
 
-      {/* Flash Sale Section */}
-      <FlashSale />
+        <p className="text-lg text-gray-700 max-w-2xl mb-8">
+          Your marketplace for authentic African traditional crafts and designs.
+          Explore products, connect with sellers, and preserve cultural heritage.
+        </p>
 
-      {/* Featured Products */}
-      <section className="max-w-7xl mx-auto px-4 py-12">
-        <h2 className="text-2xl font-bold mb-6">Featured Products</h2>
-        <ProductsList />
-      </section>
+        <Image
+          src="/hero.jpg"
+          alt="Showcase of African traditional crafts"
+          width={600}
+          height={400}
+          priority
+          className="rounded-xl shadow-lg mb-8"
+        />
 
-      <Footer />
-    </div>
-  );
+        <Link
+          href="/login"
+          className="px-6 py-3 bg-black text-white rounded-xl hover:bg-gray-800 transition"
+        >
+          Get Started
+        </Link>
+      </main>
+    </>
+  )
 }
+
+export default Home

@@ -1,18 +1,56 @@
-export default function Banner() {
+// components/layout/Banner.tsx
+import Image from 'next/image';
+import React from 'react';
+
+interface BannerProps {
+  imageSrc: string;
+  altText: string;
+  title: string;
+  subtitle?: string;
+  buttonText?: string;
+  buttonHref?: string;
+}
+
+const Banner: React.FC<BannerProps> = ({
+  imageSrc,
+  altText,
+  title,
+  subtitle,
+  buttonText,
+  buttonHref,
+}) => {
   return (
-    <section className="relative bg-black text-white flex flex-col md:flex-row items-center justify-between px-8 py-12">
-      <div>
-        <h2 className="text-4xl font-bold">Preserving Roots, while Designing Futures</h2>
-        <p className="mt-4 text-gray-300">Shop authentic African fashion, lifestyle, and design.</p>
-        <button className="mt-6 px-6 py-3 bg-red-500 rounded-lg hover:bg-red-600">
-          Shop Now →
-        </button>
-      </div>
-      <img
-        src="/logo.png"
-        alt="African Design"
-        className="w-48 md:w-64 rounded-lg mt-6 md:mt-0"
+    <section
+      className="relative w-full h-64 sm:h-80 md:h-96 overflow-hidden"
+      aria-label={title}
+    >
+      <Image
+        src={imageSrc}
+        alt={altText}
+        layout="fill"
+        objectFit="cover"
+        priority
       />
+      <div className="absolute inset-0 bg-black bg-opacity-40 flex flex-col justify-center items-start p-6 sm:p-12">
+        <h2 className="text-3xl sm:text-4xl md:text-5xl text-white font-bold">
+          {title}
+        </h2>
+        {subtitle && (
+          <p className="mt-4 text-lg sm:text-xl md:text-2xl text-gray-200">
+            {subtitle}
+          </p>
+        )}
+        {buttonText && buttonHref && (
+          <a
+            href={buttonHref}
+            className="mt-6 inline-block bg-indigo-600 text-white py-2 px-4 rounded shadow hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+          >
+            {buttonText}
+          </a>
+        )}
+      </div>
     </section>
   );
-}
+};
+
+export default React.memo(Banner);
