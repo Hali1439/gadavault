@@ -30,7 +30,7 @@ const Header = () => {
           <div className="flex-shrink-0 flex items-center">
             <Link href="/">
               <Image
-                src="/logo.svg"
+                src="/logo.png"
                 alt="Gada Vault logo"
                 width={48}
                 height={48}

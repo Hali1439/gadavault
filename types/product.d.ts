@@ -1,8 +1,17 @@
+// types/product.d.ts
+
 // --- Product image ---
 export interface ProductImage {
   url: string;
   alt?: string;
   order?: number;
+}
+
+// --- Category type ---
+export interface ProductCategory {
+  id: string;
+  name: string;
+  slug?: string;
 }
 
 // --- Core Product ---
@@ -17,12 +26,12 @@ export interface Product {
   imageUrl?: string;
 
   // Full media array
-  images: ProductImage[];
+  images: ProductImage[]; // required, but can be empty []
 
   // Pricing
-  price: number;
-  salePrice?: number;      // current discounted price (if any)
-  regularPrice?: number;   // original / compare-at price
+  price: number;            // normalized "current price" (could match salePrice)
+  salePrice?: number;       // discounted price (if any)
+  regularPrice?: number;    // original / compare-at price
   currency?: string;
   royalty_percent?: number;
 
@@ -30,15 +39,11 @@ export interface Product {
   href?: string;
 
   // Inventory & publication
-  stock: number;
+  stock: number;            // always required (default: 0 for demo data)
   published?: boolean;
 
   // Category info
-  category?: {
-    id: string;
-    name: string;
-    slug?: string;
-  } | string | null;
+  category?: ProductCategory | string | null;
 
   // Optional metadata / extensible fields
   attributes?: Record<string, unknown>;
@@ -56,5 +61,21 @@ export interface CartItem extends Product {
   quantity: number;
 }
 
-// convenience export
+// --- Convenience exports ---
 export type Products = Product[];
+
+/**
+ * A lighter product shape for UI demos (e.g. FlashSale placeholders)
+ * Ensures dummy products don't break type checks.
+ */
+export type DemoProduct = Omit<
+  Product,
+  "images" | "stock" | "price"
+> & {
+  imageUrl: string;             // single demo image
+  regularPrice: number;
+  salePrice?: number;
+  price?: number;               // allow optional override
+  stock?: number;               // optional in demo
+  images?: ProductImage[];      // optional in demo
+};

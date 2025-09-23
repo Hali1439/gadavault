@@ -1,41 +1,41 @@
 // components/layout/Footer.tsx
-import Link from 'next/link';
-import Image from 'next/image';
+import Link from "next/link";
+import Image from "next/image";
 
 const footerLinks = [
   {
-    section: 'Company',
+    section: "Company",
     links: [
-      { name: 'About Us', href: '/about' },
-      { name: 'Careers', href: '/careers' },
-      { name: 'Blog', href: '/blog' },
+      { name: "About Us", href: "/about" },
+      { name: "Careers", href: "/careers" },
+      { name: "Blog", href: "/blog" },
     ],
   },
   {
-    section: 'Support',
+    section: "Support",
     links: [
-      { name: 'Contact Us', href: '/contact' },
-      { name: 'FAQ', href: '/faq' },
-      { name: 'Shipping & Returns', href: '/shipping' },
+      { name: "Contact Us", href: "/contact" },
+      { name: "FAQ", href: "/faq" },
+      { name: "Shipping & Returns", href: "/shipping" },
     ],
   },
 ];
 
 const socialMedia = [
   {
-    name: 'Linkedln',
-    href: 'https://www.linkedin.com/in/halima-muktar-b77037371',
-    iconSrc: '/icons/Linkedln.svg',
+    name: "LinkedIn",
+    href: "https://www.linkedin.com/in/halima-muktar-b77037371",
+    iconSrc: "/icons/Linkedln.png",
   },
   {
-    name: 'Instagram',
-    href: 'https://instagram.com/gadavault',
-    iconSrc: '/icons/instagram.svg',
+    name: "Instagram",
+    href: "https://instagram.com/gadavault",
+    iconSrc: "/icons/instagram.png",
   },
   {
-    name: 'Twitter',
-    href: 'https://x.com/@halima27590',
-    iconSrc: '/icons/twitter.svg',
+    name: "Twitter",
+    href: "https://x.com/@halima27590",
+    iconSrc: "/icons/twitter.png",
   },
 ];
 
@@ -54,10 +54,11 @@ const Footer: React.FC = () => {
                 <ul className="mt-4 space-y-4">
                   {section.links.map((link) => (
                     <li key={link.name}>
-                      <Link href={link.href} passHref>
-                        <a className="text-base text-gray-300 hover:text-white">
-                          {link.name}
-                        </a>
+                      <Link
+                        href={link.href}
+                        className="text-base text-gray-300 hover:text-white"
+                      >
+                        {link.name}
                       </Link>
                     </li>
                   ))}
@@ -69,7 +70,7 @@ const Footer: React.FC = () => {
           {/* Social media */}
           <div className="mt-8 md:mt-0 flex items-center space-x-6">
             {socialMedia.map((social) => (
-              <a
+              <Link
                 key={social.name}
                 href={social.href}
                 target="_blank"
@@ -82,7 +83,7 @@ const Footer: React.FC = () => {
                   width={24}
                   height={24}
                 />
-              </a>
+              </Link>
             ))}
           </div>
         </div>

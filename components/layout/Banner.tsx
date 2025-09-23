@@ -1,6 +1,6 @@
-// components/layout/Banner.tsx
-import Image from 'next/image';
-import React from 'react';
+import Image from "next/image";
+import Link from "next/link";
+import React from "react";
 
 interface BannerProps {
   imageSrc: string;
@@ -27,9 +27,9 @@ const Banner: React.FC<BannerProps> = ({
       <Image
         src={imageSrc}
         alt={altText}
-        layout="fill"
-        objectFit="cover"
+        fill
         priority
+        style={{ objectFit: "cover" }}
       />
       <div className="absolute inset-0 bg-black bg-opacity-40 flex flex-col justify-center items-start p-6 sm:p-12">
         <h2 className="text-3xl sm:text-4xl md:text-5xl text-white font-bold">
@@ -41,12 +41,12 @@ const Banner: React.FC<BannerProps> = ({
           </p>
         )}
         {buttonText && buttonHref && (
-          <a
+          <Link
             href={buttonHref}
             className="mt-6 inline-block bg-indigo-600 text-white py-2 px-4 rounded shadow hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"
           >
             {buttonText}
-          </a>
+          </Link>
         )}
       </div>
     </section>
