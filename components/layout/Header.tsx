@@ -1,20 +1,20 @@
-// components/layout/Header.tsx
-import Link from 'next/link';
-import Image from 'next/image';
-import { useState, useCallback } from 'react';
-import { useRouter } from 'next/router';
+"use client";
 
-// If there is a mobile menu (hamburger), handle its toggle
+import { useState, useCallback } from "react";
+import Link from "next/link";
+import Image from "next/image";
+import { useRouter } from "next/router";
+
 const navigationLinks = [
-  { name: 'Home', href: '/' },
-  { name: 'Shop', href: '/shop' },
-  { name: 'Flash Sale', href: '/flash-sale' },
-  { name: 'Designers', href: '/designers' },
-  { name: 'About Us', href: '/about' },
-  { name: 'Contact', href: '/contact' },
+  { name: "Home", href: "/" },
+  { name: "Shop", href: "/shop" },
+  { name: "Flash Sale", href: "/flash-sale" },
+  { name: "Designers", href: "/designers" },
+  { name: "About Us", href: "/about" },
+  { name: "Contact", href: "/contact" },
 ];
 
-const Header: React.FC = () => {
+const Header = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const router = useRouter();
 
@@ -28,18 +28,17 @@ const Header: React.FC = () => {
         <div className="flex justify-between h-16">
           {/* Logo Section */}
           <div className="flex-shrink-0 flex items-center">
-            <Link href="/" passHref>
-              <a>
-                <Image
-                  src="/logo.svg"
-                  alt="Gada Vault logo"
-                  width={48}
-                  height={48}
-                  priority
-                />
-              </a>
+            <Link href="/">
+              <Image
+                src="/logo.svg"
+                alt="Gada Vault logo"
+                width={48}
+                height={48}
+                priority
+              />
             </Link>
           </div>
+
           {/* Desktop Navigation */}
           <nav
             className="hidden sm:ml-6 sm:flex sm:space-x-8"
@@ -48,22 +47,23 @@ const Header: React.FC = () => {
             {navigationLinks.map((link) => {
               const isActive = router.pathname === link.href;
               return (
-                <Link key={link.name} href={link.href} passHref>
-                  <a
-                    className={[
-                      'inline-flex items-center px-1 pt-1 border-b-2',
-                      isActive
-                        ? 'border-indigo-500 text-gray-900'
-                        : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700',
-                      'text-sm font-medium'
-                    ].join(' ')}
-                  >
-                    {link.name}
-                  </a>
+                <Link
+                  key={link.name}
+                  href={link.href}
+                  className={[
+                    "inline-flex items-center px-1 pt-1 border-b-2",
+                    isActive
+                      ? "border-indigo-500 text-gray-900"
+                      : "border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700",
+                    "text-sm font-medium",
+                  ].join(" ")}
+                >
+                  {link.name}
                 </Link>
               );
             })}
           </nav>
+
           {/* Mobile menu button */}
           <div className="flex items-center sm:hidden">
             <button
@@ -122,17 +122,17 @@ const Header: React.FC = () => {
             {navigationLinks.map((link) => {
               const isActive = router.pathname === link.href;
               return (
-                <Link key={link.name} href={link.href} passHref>
-                  <a
-                    className={[
-                      'block pl-3 pr-4 py-2 border-l-4 text-base font-medium',
-                      isActive
-                        ? 'bg-indigo-50 border-indigo-500 text-indigo-700'
-                        : 'border-transparent text-gray-600 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800',
-                    ].join(' ')}
-                  >
-                    {link.name}
-                  </a>
+                <Link
+                  key={link.name}
+                  href={link.href}
+                  className={[
+                    "block pl-3 pr-4 py-2 border-l-4 text-base font-medium",
+                    isActive
+                      ? "bg-indigo-50 border-indigo-500 text-indigo-700"
+                      : "border-transparent text-gray-600 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800",
+                  ].join(" ")}
+                >
+                  {link.name}
                 </Link>
               );
             })}
@@ -143,5 +143,4 @@ const Header: React.FC = () => {
   );
 };
 
-export default React.memo(Header);
-// React.memo to avoid unnecessary re-renders when parent updates but props are stable
+export default Header;

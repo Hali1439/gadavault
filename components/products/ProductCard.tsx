@@ -1,5 +1,6 @@
 import { Product } from "@/types/product";
 import Link from "next/link";
+import Image from "next/image";
 
 interface ProductCardProps {
   product: Product;
@@ -11,10 +12,11 @@ export default function ProductCard({ product }: ProductCardProps) {
       {/* Image */}
       <div className="relative w-full h-64 bg-gray-100 flex items-center justify-center">
         {product.images && product.images.length > 0 ? (
-          <img
+          <Image
             src={product.images[0].url}
             alt={product.images[0].alt || product.name}
-            className="object-cover w-full h-full"
+            fill
+            style={{ objectFit: "cover" }}
           />
         ) : (
           <span className="text-gray-400">No image</span>
@@ -24,7 +26,9 @@ export default function ProductCard({ product }: ProductCardProps) {
       {/* Info */}
       <div className="p-4">
         <h3 className="text-lg font-semibold text-gray-900 truncate">
-          <Link href={`/products/${product.slug}`}>{product.name}</Link>
+          <Link href={`/products/${product.slug || product.id}`}>
+            {product.name}
+          </Link>
         </h3>
         <p className="text-sm text-gray-600 line-clamp-2 mt-1">
           {product.description}

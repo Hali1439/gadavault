@@ -1,5 +1,19 @@
+import { useSelector } from "react-redux";
+import { RootState } from "@/store/store";
 import AvatarMenu from "@/components/users/AvatarMenu"
+
 export default function ProfilePage() {
+  const currentUser = useSelector((state: RootState) => state.user.currentUser);
+
+  if (!currentUser) {
+    return (
+      <div className="max-w-3xl mx-auto px-4 py-10">
+        <h1 className="text-3xl font-bold mb-6">Profile</h1>
+        <p className="text-gray-600">Please log in to view your profile.</p>
+      </div>
+    );
+  }
+
   return (
     <div className="max-w-3xl mx-auto px-4 py-10">
       <h1 className="text-3xl font-bold mb-6">Profile</h1>
@@ -13,7 +27,7 @@ export default function ProfilePage() {
 
         <div className="p-6 rounded-lg bg-white shadow">
           <h2 className="text-xl font-semibold mb-2">Quick Actions</h2>
-          <AvatarMenu />
+          <AvatarMenu user={currentUser} />
         </div>
       </div>
     </div>

@@ -1,7 +1,7 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { RootState } from "@/store";
-import { removeFromCart, clearCart } from "@/store/cartSlice";
+import { RootState } from "@/store/store";
+import { removeFromCart, clearCart } from "@/store/slices/cartSlice";
 import CartItem from "./CartItem";
 import Button from "@/components/common/Button";
 
@@ -19,9 +19,9 @@ const Cart: React.FC = () => {
       <ul className="divide-y divide-gray-200">
         {items.map((item) => (
           <CartItem
-            key={item.product.id}
+            key={item.id} // CartItem now has id directly
             item={item}
-            onRemove={() => dispatch(removeFromCart(item.product.id))}
+            onRemove={() => dispatch(removeFromCart(item.id))}
           />
         ))}
       </ul>

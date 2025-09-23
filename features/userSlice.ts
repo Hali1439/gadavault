@@ -66,8 +66,9 @@ export const loginThunk = createAsyncThunk<AuthResponse, { email: string; passwo
     try {
       const data = await loginUser(credentials);
       return data as AuthResponse;
-    } catch (err: any) {
-      return rejectWithValue(err.message || "Login failed");
+    } catch (err: unknown) {
+      const error = err as { message: string };
+      return rejectWithValue(error.message || "Login failed");
     }
   }
 );
@@ -81,8 +82,9 @@ export const registerThunk = createAsyncThunk<
     try {
       const data = await registerUser(userData);
       return data as AuthResponse;
-    } catch (err: any) {
-      return rejectWithValue(err.message || "Registration failed");
+    } catch (err: unknown) {
+      const error = err as { message: string };
+      return rejectWithValue(error.message || "Registration failed");
     }
   }
 );

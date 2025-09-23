@@ -3,7 +3,7 @@ import Input from "@/components/common/Input";
 import Button from "@/components/common/Button";
 import { useDispatch } from "react-redux";
 import { loginUser, registerUser } from "@/utils/api";
-import { setUser } from "@/store/userSlice";
+import { setUser } from "@/store/slices/userSlice";
 
 interface AuthFormProps {
   mode: "login" | "register";
@@ -24,13 +24,14 @@ const AuthForm: React.FC<AuthFormProps> = ({ mode }) => {
     try {
       if (mode === "login") {
         const data = await loginUser({ email, password });
-        dispatch(setUser({ user: data.user, token: data.access }));
+        dispatch(setUser(data.user));
       } else {
         const data = await registerUser({ email, password });
-        dispatch(setUser({ user: data.user, token: data.access }));
+        dispatch(setUser(data.user));
       }
-    } catch (err: any) {
-      setError(err?.message || "Something went wrong.");
+    } catch (err: unknown) {
+      const error = err as { message?: string };
+      setError(error?.message || "Something went wrong.");
     } finally {
       setLoading(false);
     }

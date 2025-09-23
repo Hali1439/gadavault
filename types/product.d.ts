@@ -1,39 +1,52 @@
-// types/product.d.ts
+// --- Product image ---
+export interface ProductImage {
+  url: string;
+  alt?: string;
+  order?: number;
+}
 
 // --- Core Product ---
 export interface Product {
+  // Identity
   id: string;
   name: string;
   slug?: string;
-  description: string;
+  description?: string;
 
-  // Media
-  imageUrl?: string; // convenience for frontend (maps to first images[] if present)
-  images: { url: string; alt?: string; order?: number }[];
+  // Convenience single-image (maps to first images[] if present)
+  imageUrl?: string;
+
+  // Full media array
+  images: ProductImage[];
 
   // Pricing
   price: number;
+  salePrice?: number;      // current discounted price (if any)
+  regularPrice?: number;   // original / compare-at price
   currency?: string;
   royalty_percent?: number;
 
-  // Inventory
+  // Useful frontend link
+  href?: string;
+
+  // Inventory & publication
   stock: number;
   published?: boolean;
 
-  // Category
+  // Category info
   category?: {
     id: string;
     name: string;
-    slug: string;
+    slug?: string;
   } | string | null;
 
-  // Metadata
-  attributes?: Record<string, any>;
-  provenance?: Record<string, any>;
+  // Optional metadata / extensible fields
+  attributes?: Record<string, unknown>;
+  provenance?: Record<string, unknown>;
   story_markdown?: string;
   origin_region?: string;
 
-  // Audit
+  // Audit timestamps
   created_at?: string;
   updated_at?: string;
 }
@@ -42,3 +55,6 @@ export interface Product {
 export interface CartItem extends Product {
   quantity: number;
 }
+
+// convenience export
+export type Products = Product[];

@@ -1,7 +1,7 @@
 // pages/_app.tsx
 import type { AppProps } from 'next/app'
 import { Provider } from 'react-redux'
-import { store } from '@/store'
+import { store } from '@/store/store'
 import { Inter } from 'next/font/google'
 import Head from 'next/head'
 import '@/styles/globals.css'

@@ -2,15 +2,7 @@
 import Image from 'next/image';
 import React, { useEffect, useState, useCallback } from 'react';
 import Link from 'next/link';
-
-interface Product {
-  id: string;
-  name: string;
-  imageUrl: string;
-  salePrice: number;
-  regularPrice: number;
-  href: string;
-}
+import type { Product } from '@/types/product';
 
 interface FlashSaleProps {
   products: Product[];
@@ -22,7 +14,7 @@ const FlashSale: React.FC<FlashSaleProps> = ({ products, saleEndsAt }) => {
     const diff = new Date(saleEndsAt).getTime() - Date.now();
     return diff > 0 ? diff : 0;
   });
-
+ 
   useEffect(() => {
     if (timeLeft <= 0) return;
 
@@ -67,11 +59,11 @@ const FlashSale: React.FC<FlashSaleProps> = ({ products, saleEndsAt }) => {
         {/* Product Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {products.map((product) => (
-            <Link key={product.id} href={product.href} passHref>
+            <Link key={product.id} href={product.href || '#'} passHref>
               <a className="block group bg-white rounded-lg shadow hover:shadow-lg overflow-hidden focus:outline-none focus:ring-2 focus:ring-indigo-500">
                 <div className="relative w-full h-48">
                   <Image
-                    src={product.imageUrl}
+                    src={product.imageUrl || '/placeholder.jpg'}
                     alt={product.name}
                     layout="fill"
                     objectFit="cover"
@@ -82,8 +74,8 @@ const FlashSale: React.FC<FlashSaleProps> = ({ products, saleEndsAt }) => {
                     {product.name}
                   </h4>
                   <div className="mt-2">
-                    <span className="text-red-600 font-bold">${product.salePrice.toFixed(2)}</span>{' '}
-                    <span className="text-gray-500 line-through">${product.regularPrice.toFixed(2)}</span>
+                    <span className="text-red-600 font-bold">${product.salePrice?.toFixed(2) || '0.00'}</span>{' '}
+                    <span className="text-gray-500 line-through">${product.regularPrice?.toFixed(2) || '0.00'}</span>
                   </div>
                 </div>
               </a>

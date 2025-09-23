@@ -29,8 +29,9 @@ export const fetchProducts = createAsyncThunk<
       : "/products/";
     const response = await api.get<Product[]>(endpoint);
     return response.data;
-  } catch (err: any) {
-    return rejectWithValue(err.response?.data?.detail || "Failed to fetch products");
+  } catch (err: unknown) {
+    const error = err as { response?: { data?: { detail?: string } } };
+    return rejectWithValue(error.response?.data?.detail || "Failed to fetch products");
   }
 });
 
@@ -43,8 +44,9 @@ export const fetchProductById = createAsyncThunk<
   try {
     const response = await api.get<Product>(`/products/${id}/`);
     return response.data;
-  } catch (err: any) {
-    return rejectWithValue(err.response?.data?.detail || "Failed to fetch product");
+  } catch (err: unknown) {
+    const error = err as { response?: { data?: { detail?: string } } };
+    return rejectWithValue(error.response?.data?.detail || "Failed to fetch product");
   }
 });
 
@@ -57,8 +59,9 @@ export const fetchProductBySlug = createAsyncThunk<
   try {
     const response = await api.get<Product>(`/products/${slug}/`);
     return response.data;
-  } catch (err: any) {
-    return rejectWithValue(err.response?.data?.detail || "Failed to fetch product");
+  } catch (err: unknown) {
+    const error = err as { response?: { data?: { detail?: string } } };
+    return rejectWithValue(error.response?.data?.detail || "Failed to fetch product");
   }
 });
 

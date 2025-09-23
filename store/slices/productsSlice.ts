@@ -22,8 +22,9 @@ export const fetchProducts = createAsyncThunk<Product[], string | undefined>(
       const url = categorySlug ? `/products/?category=${categorySlug}` : '/products/';
       const response = await api.get(url);
       return response.data;
-    } catch (err: any) {
-      return rejectWithValue(err.response?.data || err.message);
+    } catch (err: unknown) {
+      const error = err as { response?: { data: unknown }; message: string };
+      return rejectWithValue(error.response?.data || error.message);
     }
   }
 );

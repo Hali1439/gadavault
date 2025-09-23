@@ -2,8 +2,8 @@ import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { fetchProductBySlug } from "@/features/productsSlice";
-import ProductCard from "@/components/products/ProductCard";
 import Head from "next/head";
+import Image from "next/image";
 
 export default function ProductDetail() {
   const router = useRouter();
@@ -48,11 +48,13 @@ export default function ProductDetail() {
           {selectedProduct && (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               {/* Product Image */}
-              <div className="flex justify-center">
-                <img
-                  src={selectedProduct.imageUrl}
+              <div className="flex justify-center relative w-full h-[500px]">
+                <Image
+                  src={selectedProduct.imageUrl || "/default-product.png"}
                   alt={selectedProduct.name}
-                  className="rounded-2xl shadow-lg max-h-[500px] object-cover"
+                  fill
+                  style={{ objectFit: "cover" }}
+                  className="rounded-2xl shadow-lg"
                 />
               </div>
 
@@ -70,7 +72,10 @@ export default function ProductDetail() {
 
                 <button
                   onClick={() =>
-                    dispatch({ type: "cart/addToCart", payload: selectedProduct })
+                    dispatch({
+                      type: "cart/addToCart",
+                      payload: selectedProduct,
+                    })
                   }
                   className="px-6 py-3 bg-indigo-600 text-white rounded-xl hover:bg-indigo-700 transition"
                 >

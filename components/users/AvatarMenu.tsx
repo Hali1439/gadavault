@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { logout } from "@/store/userSlice";
+import { logout } from "@/features/userSlice";
+import Image from "next/image";
 
 interface AvatarMenuProps {
   user: { name: string; avatarUrl?: string };
@@ -16,11 +17,15 @@ const AvatarMenu: React.FC<AvatarMenuProps> = ({ user }) => {
         className="flex items-center gap-2 rounded-full bg-gray-100 p-2 hover:bg-gray-200"
         onClick={() => setOpen((prev) => !prev)}
       >
-        <img
-          src={user.avatarUrl || "/default-avatar.png"}
-          alt={user.name}
-          className="h-8 w-8 rounded-full object-cover"
-        />
+        <div className="relative h-8 w-8">
+          <Image
+            src={user.avatarUrl || "/default-avatar.png"}
+            alt={user.name}
+            fill
+            style={{ objectFit: "cover" }}
+            className="rounded-full"
+          />
+        </div>
         <span className="hidden sm:block text-sm font-medium">{user.name}</span>
       </button>
 

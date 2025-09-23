@@ -1,29 +1,34 @@
 import React from "react";
-import { CartItem as CartItemType } from "@/types";
+import type { CartItem } from "@/types/product";
 import Button from "@/components/common/Button";
+import Image from "next/image";
 
 interface CartItemProps {
-  item: CartItemType;
+  item: CartItem;
   onRemove: () => void;
 }
 
-const CartItem: React.FC<CartItemProps> = ({ item, onRemove }) => {
-  const { product, quantity } = item;
+const CartItemComponent: React.FC<CartItemProps> = ({ item, onRemove }) => {
+  const { images, name, price, quantity } = item;
 
   return (
     <li className="flex items-center justify-between py-4">
       <div className="flex items-center gap-4">
-        {product.images?.[0] && (
-          <img
-            src={product.images[0]}
-            alt={product.name}
-            className="h-16 w-16 rounded-md object-cover"
-          />
+        {images?.[0] && (
+          <div className="relative h-16 w-16">
+            <Image
+              src={images[0].url}
+              alt={images[0].alt || name}
+              fill
+              style={{ objectFit: "cover" }}
+              className="rounded-md"
+            />
+          </div>
         )}
         <div>
-          <h3 className="font-medium">{product.name}</h3>
+          <h3 className="font-medium">{name}</h3>
           <p className="text-sm text-gray-500">
-            {quantity} × ${product.price.toFixed(2)}
+            {quantity} × ${price.toFixed(2)}
           </p>
         </div>
       </div>
@@ -34,4 +39,4 @@ const CartItem: React.FC<CartItemProps> = ({ item, onRemove }) => {
   );
 };
 
-export default CartItem;
+export default CartItemComponent;

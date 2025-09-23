@@ -51,6 +51,6 @@ export interface ApiEndpoints {
 
   // Orders
   createOrder: ApiResponse<{ orderId: string }>;
-  getOrders: ApiResponse<any[]>; // refine once backend schema confirmed
-  getOrderById: ApiResponse<any>;
+  getOrders: ApiResponse<unknown[]>; // refine once backend schema confirmed
+  getOrderById: ApiResponse<unknown>;
 }
