@@ -1,3 +1,4 @@
+// pages/profile/index.tsx
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import AvatarMenu from "@/components/users/AvatarMenu"
