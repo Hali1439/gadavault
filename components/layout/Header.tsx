@@ -10,12 +10,9 @@ import { RootState } from "@/store/store";
 
 const navigationLinks = [
   { name: "Home", href: "/" },
-  { name: "Flash Sale", href: "/flash-sale" },
   { name: "Designers", href: "/designers" },
   { name: "Portfolio", href: "/portfolio" },
-  { name: "About Us", href: "/about" },
   {name: "cart", href: "/cart"},
-  { name: "Contact", href: "/contact" },
 ];
 
 const Header = () => {
