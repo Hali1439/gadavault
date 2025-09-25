@@ -1,12 +1,16 @@
-// components/products/ProductsList.tsx
 import { Product } from "@/types/product";
 import ProductCard from "./ProductCard";
 
 interface ProductsListProps {
-  products: Product[];
+  products?: Product[] | null; // allow undefined/null too
 }
 
 export default function ProductsList({ products }: ProductsListProps) {
+  // Guard: if products is missing or not an array
+  if (!Array.isArray(products)) {
+    return <p className="text-red-500">⚠️ Invalid products data.</p>;
+  }
+
   if (products.length === 0) {
     return <p className="text-gray-500">No products found.</p>;
   }

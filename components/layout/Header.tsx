@@ -1,141 +1,134 @@
-// components/layout/Header.tsx
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState } from "react";
 import Link from "next/link";
-import Image from "next/image";
-import { useRouter } from "next/router";
-import { useSelector } from "react-redux";
-import { RootState } from "@/store/store";
-
-const navigationLinks = [
-  { name: "Home", href: "/" },
-  { name: "Designers", href: "/designers" },
-  { name: "Portfolio", href: "/portfolio" },
-  {name: "cart", href: "/cart"},
-];
+import {
+  FaBell,
+  FaUserCircle,
+  FaTh,
+  FaPaintBrush,
+  FaBlog,
+  FaStore,
+  FaCrown,
+  FaEnvelope,
+} from "react-icons/fa";
 
 const Header = () => {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const router = useRouter();
-
-  // ✅ Real auth state from Redux
-  const user = useSelector((state: RootState) => state.user.currentUser);
-  const isLoggedIn = Boolean(user);
-
-  const toggleMenu = useCallback(() => {
-    setMobileMenuOpen((open) => !open);
-  }, []);
-
-  const handlePortfolioClick = (e: React.MouseEvent) => {
-    e.preventDefault();
-    if (!isLoggedIn) {
-      router.push("/login");
-    } else {
-      router.push("/portfolio");
-    }
-  };
-
-  const renderLink = (link: typeof navigationLinks[number], isMobile = false) => {
-    const isActive = router.pathname === link.href;
-    const baseClass = isMobile
-      ? "block pl-3 pr-4 py-2 border-l-4 text-base font-medium"
-      : "inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium";
-
-    const activeClass = isMobile
-      ? "bg-indigo-50 border-indigo-500 text-indigo-700"
-      : "border-indigo-500 text-gray-900";
-
-    const inactiveClass = isMobile
-      ? "border-transparent text-gray-600 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800"
-      : "border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700";
-
-    if (link.name === "Portfolio") {
-      return (
-        <a
-          key={link.name}
-          href={link.href}
-          onClick={handlePortfolioClick}
-          className={`${baseClass} ${isActive ? activeClass : inactiveClass}`}
-        >
-          {link.name}
-        </a>
-      );
-    }
-
-    return (
-      <Link
-        key={link.name}
-        href={link.href}
-        className={`${baseClass} ${isActive ? activeClass : inactiveClass}`}
-      >
-        {link.name}
-      </Link>
-    );
-  };
+  const [showGrid, setShowGrid] = useState(false);
+  const [showNotifications, setShowNotifications] = useState(false);
+  const [showProfile, setShowProfile] = useState(false);
 
   return (
-    <header className="bg-white shadow-md">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between h-16">
-          {/* Logo */}
-          <div className="flex-shrink-0 flex items-center">
-            <Link href="/">
-              <Image src="/logo.png" alt="Gada Vault logo" width={48} height={48} priority />
-            </Link>
+    <header className="bg-white shadow sticky top-0 z-50">
+      <div className="flex justify-between items-center px-6 py-3">
+        {/* Logo */}
+        <Link href="/" className="text-2xl font-bold text-purple-600">
+          GadaVault
+        </Link>
+
+        {/* Right-side icons */}
+        <div className="flex items-center gap-6">
+          {/* Grid Menu */}
+          <div className="relative">
+            <button
+              onClick={() => setShowGrid(!showGrid)}
+              className="hover:text-purple-600"
+            >
+              <FaTh size={20} />
+            </button>
+            {showGrid && (
+              <div className="absolute right-0 mt-2 grid grid-cols-3 gap-4 bg-white shadow-lg rounded-lg p-4 w-64">
+                {[
+                  { href: "/designers", icon: <FaPaintBrush />, label: "Design" },
+                  { href: "/products", icon: <FaStore />, label: "Products" },
+                  { href: "/blog", icon: <FaBlog />, label: "Blog" },
+                  { href: "/contact", icon: <FaEnvelope />, label: "Contact" },
+                  { href: "#", icon: <FaCrown />, label: "Premium" },
+                ].map((item, i) => (
+                  <Link
+                    key={i}
+                    href={item.href}
+                    className="flex flex-col items-center text-gray-700 hover:text-purple-600"
+                  >
+                    <span className="text-2xl">{item.icon}</span>
+                    <span className="text-sm">{item.label}</span>
+                  </Link>
+                ))}
+              </div>
+            )}
           </div>
 
-          {/* Desktop Nav */}
-          <nav className="hidden sm:ml-6 sm:flex sm:space-x-8" aria-label="Primary navigation">
-            {navigationLinks.map((link) => renderLink(link))}
-          </nav>
-
-          {/* Mobile menu button */}
-          <div className="flex items-center sm:hidden">
+          {/* Notifications */}
+          <div className="relative">
             <button
-              type="button"
-              aria-controls="mobile-menu"
-              aria-expanded={mobileMenuOpen}
-              onClick={toggleMenu}
-              className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500"
+              onClick={() => setShowNotifications(!showNotifications)}
+              className="hover:text-purple-600"
             >
-              <span className="sr-only">Open main menu</span>
-              {mobileMenuOpen ? (
-                <svg
-                  className="block h-6 w-6"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  aria-hidden="true"
-                >
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                </svg>
-              ) : (
-                <svg
-                  className="block h-6 w-6"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  aria-hidden="true"
-                >
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-                </svg>
-              )}
+              <FaBell size={20} />
             </button>
+            {showNotifications && (
+              <div className="absolute right-0 mt-2 w-72 bg-white shadow-lg rounded-lg p-4">
+                <p className="font-semibold text-gray-800">Notifications</p>
+                <ul className="mt-2 space-y-2 text-sm">
+                  <li className="bg-purple-50 p-2 rounded">
+                    🔥 New Portfolio uploaded by Amina
+                  </li>
+                  <li className="bg-purple-50 p-2 rounded">
+                    💡 Your idea got 12 likes
+                  </li>
+                  <li className="bg-purple-50 p-2 rounded">
+                    🎉 Welcome to GadaVault!
+                  </li>
+                </ul>
+                <button className="mt-3 text-xs text-purple-600 hover:underline">
+                  Mark all as read
+                </button>
+              </div>
+            )}
+          </div>
+
+          {/* User Profile */}
+          <div className="relative">
+            <button
+              onClick={() => setShowProfile(!showProfile)}
+              className="hover:text-purple-600"
+            >
+              <FaUserCircle size={24} />
+            </button>
+            {showProfile && (
+              <div className="absolute right-0 mt-2 w-48 bg-white shadow-lg rounded-lg p-4">
+                <div className="flex items-center gap-2 mb-3">
+                  <FaUserCircle size={28} className="text-gray-500" />
+                  <div>
+                    <p className="font-semibold text-gray-800">Jiruu K</p>
+                    <p className="text-xs text-gray-500">Level 3 Creator</p>
+                  </div>
+                </div>
+                {/* Progress bar */}
+                <div className="w-full bg-gray-200 h-2 rounded mb-3">
+                  <div className="bg-purple-600 h-2 rounded w-2/3"></div>
+                </div>
+                <ul className="space-y-2 text-sm">
+                  <li>
+                    <Link href="/profile">Profile</Link>
+                  </li>
+                  <li>
+                    <Link href="/settings">Settings</Link>
+                  </li>
+                  <li>
+                    <Link href="/cart">Cart</Link>
+                  </li>
+                  <li>
+                    <Link href="/logout" className="text-red-500">
+                      Logout
+                    </Link>
+                  </li>
+                </ul>
+              </div>
+            )}
           </div>
         </div>
       </div>
-
-      {/* Mobile Nav */}
-      {mobileMenuOpen && (
-        <div className="sm:hidden" id="mobile-menu">
-          <nav className="px-2 pt-2 pb-3 space-y-1" aria-label="Mobile primary navigation">
-            {navigationLinks.map((link) => renderLink(link, true))}
-          </nav>
-        </div>
-      )}
     </header>
   );
 };

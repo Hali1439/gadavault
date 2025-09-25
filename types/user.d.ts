@@ -7,7 +7,7 @@ export interface User {
   updatedAt: string;
 }
 
-// Auth payloads
+// Login/Signup payloads
 export interface LoginPayload {
   email: string;
   password: string;
@@ -19,7 +19,9 @@ export interface SignupPayload {
   password: string;
 }
 
+// API responses
 export interface AuthResponse {
   user: User;
-  token: string;
+  access: string;
+  refresh: string;
 }

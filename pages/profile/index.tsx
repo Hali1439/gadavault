@@ -1,4 +1,3 @@
-// pages/profile/index.tsx
 "use client";
 
 import React, { useState } from "react";
@@ -10,7 +9,8 @@ import Footer from "@/components/layout/Footer";
 import Input from "@/components/common/Input";
 import Button from "@/components/common/Button";
 import AvatarMenu from "@/components/users/AvatarMenu";
-import { loginUser, registerUser, socialLogin } from "@/utils/api"; // assume you implement socialLogin
+import { loginUser, registerUser, socialLogin } from "@/utils/api";
+import { LoginPayload, SignupPayload } from "@/types/user";
 
 type AuthMode = "login" | "register";
 
@@ -24,7 +24,6 @@ export default function ProfilePage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  // Handle login/register submit
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
@@ -33,13 +32,14 @@ export default function ProfilePage() {
     try {
       let data;
       if (mode === "login") {
-        data = await loginUser({ email, password });
+        const payload: LoginPayload = { email, password };
+        data = await loginUser(payload);
       } else {
-        data = await registerUser({ email, password });
+        const payload: SignupPayload = { name: email, email, password }; // name fallback to email
+        data = await registerUser(payload);
       }
 
       dispatch(setUser(data.user));
-      // After auth, clear form
       setEmail("");
       setPassword("");
     } catch (err: unknown) {
@@ -50,12 +50,12 @@ export default function ProfilePage() {
     }
   };
 
-  // Handle social login
   const handleSocialLogin = async (provider: "google" | "linkedin" | "twitter") => {
     setLoading(true);
     setError(null);
     try {
-      const data = await socialLogin(provider);
+      const token = "dummy_oauth_token"; // Replace with real OAuth flow
+      const data = await socialLogin(provider, token);
       dispatch(setUser(data.user));
     } catch (err: unknown) {
       const errorObj = err as { message?: string };
@@ -65,7 +65,6 @@ export default function ProfilePage() {
     }
   };
 
-  // If logged in, show profile
   if (currentUser) {
     return (
       <>
@@ -79,7 +78,6 @@ export default function ProfilePage() {
                 Manage your email, password, and other account details here.
               </p>
             </div>
-
             <div className="p-6 rounded-lg bg-white shadow">
               <h2 className="text-xl font-semibold mb-2">Quick Actions</h2>
               <AvatarMenu user={currentUser} />
@@ -91,7 +89,6 @@ export default function ProfilePage() {
     );
   }
 
-  // Otherwise, show login/register
   return (
     <>
       <Header />
