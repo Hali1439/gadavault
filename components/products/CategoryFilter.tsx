@@ -1,43 +1,72 @@
+// components/categories/CategoryFilter.tsx
+"use client";
+
 import { useState } from "react";
+import { ProductCategory } from "@/types/product";
 
 interface CategoryFilterProps {
-  categories: { id: string; name: string; slug: string }[];
-  onSelect: (slug: string | null) => void;
+  categories: ProductCategory[];
+  onCategoryChange: (slug?: string) => void; // ✅ standardized to undefined
+  variant?: "buttons" | "dropdown";
 }
 
 export default function CategoryFilter({
   categories,
-  onSelect,
+  onCategoryChange,
+  variant = "buttons",
 }: CategoryFilterProps) {
-  const [selected, setSelected] = useState<string | null>(null);
+  const [activeCategory, setActiveCategory] = useState<string | undefined>(undefined);
 
-  const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const slug = e.target.value || null;
-    setSelected(slug);
-    onSelect(slug);
+  const handleChange = (slug?: string) => {
+    setActiveCategory(slug);
+    onCategoryChange(slug);
   };
 
-  return (
-    <div className="mb-6">
-      <label
-        htmlFor="category"
-        className="block text-sm font-medium text-gray-700 mb-2"
-      >
-        Filter by Category
-      </label>
+  if (variant === "dropdown") {
+    return (
       <select
-        id="category"
-        value={selected || ""}
-        onChange={handleChange}
-        className="block w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+        onChange={(e) =>
+          handleChange(e.target.value === "" ? undefined : e.target.value)
+        }
+        className="border rounded px-3 py-2"
+        value={activeCategory ?? ""}
       >
-        <option value="">All Categories</option>
+        <option value="">All</option>
         {categories.map((cat) => (
           <option key={cat.id} value={cat.slug}>
             {cat.name}
           </option>
         ))}
       </select>
+    );
+  }
+
+  // default: buttons
+  return (
+    <div className="flex gap-3 flex-wrap">
+      <button
+        onClick={() => handleChange(undefined)}
+        className={`px-4 py-2 rounded ${
+          activeCategory === undefined
+            ? "bg-blue-600 text-white"
+            : "bg-gray-200 text-gray-800"
+        }`}
+      >
+        All
+      </button>
+      {categories.map((cat) => (
+        <button
+          key={cat.id}
+          onClick={() => handleChange(cat.slug)}
+          className={`px-4 py-2 rounded ${
+            activeCategory === cat.slug
+              ? "bg-blue-600 text-white"
+              : "bg-gray-200 text-gray-800"
+          }`}
+        >
+          {cat.name}
+        </button>
+      ))}
     </div>
   );
 }

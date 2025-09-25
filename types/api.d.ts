@@ -16,10 +16,22 @@ export interface Designer {
 /**
  * Generic API response wrapper
  */
-export interface ApiResponse<T> {
+export interface ApiResponse<T = any> {
   data: T;
-  message?: string;
   success: boolean;
+  message?: string;
+  pagination?: {
+    page: number;
+    limit: number;
+    total: number;
+    pages: number;
+  };
+}
+
+export interface ApiError {
+  message: string;
+  code: string;
+  details?: any;
 }
 
 /**

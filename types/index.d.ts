@@ -3,3 +3,4 @@ export * from "./user";
 export * from "./order";
 export * from "./api";
 export * from "./designer";
+export * from './flashSale';
