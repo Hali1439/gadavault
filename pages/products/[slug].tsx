@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
-import { fetchProductBySlug } from "@/features/productsSlice";
+import { fetchProductBySlug } from "@/features/products/productsSlice";
 import Head from "next/head";
 import Image from "next/image";
 
@@ -50,8 +50,8 @@ export default function ProductDetail() {
               {/* Product Image */}
               <div className="flex justify-center relative w-full h-[500px]">
                 <Image
-                  src={selectedProduct.imageUrl || "/default-product.png"}
-                  alt={selectedProduct.name}
+                  src={selectedProduct.images[0]?.url || "/default-product.png"}
+                  alt={selectedProduct.images[0]?.alt || selectedProduct.name}
                   fill
                   style={{ objectFit: "cover" }}
                   className="rounded-2xl shadow-lg"
@@ -74,7 +74,7 @@ export default function ProductDetail() {
                   onClick={() =>
                     dispatch({
                       type: "cart/addToCart",
-                      payload: selectedProduct,
+                      payload: { product: selectedProduct, quantity: 1 },
                     })
                   }
                   className="px-6 py-3 bg-indigo-600 text-white rounded-xl hover:bg-indigo-700 transition"

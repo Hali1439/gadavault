@@ -22,8 +22,8 @@ import {
   LogOut
 } from 'lucide-react';
 import { RootState } from '@/store/store';
-import { logout } from '@/store/slices/userSlice';
-import { toggleMobileMenu } from '@/store/slices/uiSlice';
+import { logout } from '@/features/user/userSlice';
+import { toggleMobileMenu } from '@/features/ui/uiSlice';
 import Button from '@/components/common/Button';
 import Avatar from '@/components/common/Avatar';
 

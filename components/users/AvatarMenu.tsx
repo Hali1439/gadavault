@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { logout } from "@/features/userSlice";
+import { logout } from "@/features/user/userSlice";
 import Image from "next/image";
 
 interface AvatarMenuProps {

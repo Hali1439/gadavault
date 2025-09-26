@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "@/store/store";
-import { setUser } from "@/store/slices/userSlice";
+import { setUser } from "@/features/user/userSlice";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import Input from "@/components/common/Input";

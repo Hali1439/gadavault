@@ -4,8 +4,8 @@ import Image from 'next/image';
 import { Heart, Star } from 'lucide-react';
 import { Product } from '@/types/product';
 import { useAppDispatch } from '@/store/hooks';
-import { addToCart } from '@/store/slices/cartSlice';
-import { showNotification } from '@/store/slices/uiSlice';
+import { addToCart } from '@/features/cart/cartSlice';
+import { showNotification } from '@/features/ui/uiSlice';
 import Button from '@/components/common/Button';
 
 interface ProductCardProps {

@@ -4,8 +4,8 @@
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useDispatch } from 'react-redux';
-import { logout } from '@/store/slices/userSlice';
-import { showNotification } from '@/store/slices/uiSlice';
+import { logout } from '@/features/user/userSlice';
+import { showNotification } from '@/features/ui/uiSlice';
 import Spinner from '@/components/common/Spinner';
 
 const LogOutPage = () => {

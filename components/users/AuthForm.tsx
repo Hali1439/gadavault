@@ -4,7 +4,7 @@ import Input from "@/components/common/Input";
 import Button from "@/components/common/Button";
 import { useDispatch } from "react-redux";
 import { loginUser, registerUser } from "@/utils/api";
-import { setUser } from "@/store/slices/userSlice";
+import { setUser } from "@/features/user/userSlice";
 import { useRouter } from "next/router";
 
 interface AuthFormProps {

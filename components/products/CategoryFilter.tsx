@@ -6,27 +6,27 @@ import { ProductCategory } from "@/types/product";
 
 interface CategoryFilterProps {
   categories: ProductCategory[];
-  onCategoryChange: (slug?: string) => void; // ✅ standardized to undefined
+  onSelect: (slug: string | null) => void;
   variant?: "buttons" | "dropdown";
 }
 
 export default function CategoryFilter({
   categories,
-  onCategoryChange,
+  onSelect,
   variant = "buttons",
 }: CategoryFilterProps) {
   const [activeCategory, setActiveCategory] = useState<string | undefined>(undefined);
 
-  const handleChange = (slug?: string) => {
-    setActiveCategory(slug);
-    onCategoryChange(slug);
+  const handleChange = (slug: string | null) => {
+    setActiveCategory(slug ?? undefined);
+    onSelect(slug);
   };
 
   if (variant === "dropdown") {
     return (
       <select
         onChange={(e) =>
-          handleChange(e.target.value === "" ? undefined : e.target.value)
+          handleChange(e.target.value === "" ? null : e.target.value)
         }
         className="border rounded px-3 py-2"
         value={activeCategory ?? ""}
@@ -45,7 +45,7 @@ export default function CategoryFilter({
   return (
     <div className="flex gap-3 flex-wrap">
       <button
-        onClick={() => handleChange(undefined)}
+        onClick={() => handleChange(null)}
         className={`px-4 py-2 rounded ${
           activeCategory === undefined
             ? "bg-blue-600 text-white"

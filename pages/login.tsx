@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { loginUser } from "@/utils/api";
-import { setToken } from "@/store/slices/userSlice";
+import { setToken } from "@/features/user/userSlice";
 import { setToken as saveToken } from "@/utils/auth";
 import { LoginPayload } from "@/types/user";
 

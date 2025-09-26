@@ -2,7 +2,7 @@
 import { useEffect } from "react";
 import Head from "next/head";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
-import { fetchProducts } from "@/features/productsSlice";
+import { fetchProducts } from "@/features/products/productsSlice";
 import ProductsList from "@/components/products/ProductsList";
 import CategoryFilter from "@/components/products/CategoryFilter";
 import { Product } from "@/types/product";
@@ -18,7 +18,7 @@ export default function ProductCatalog() {
   }, [dispatch]);
 
   const handleCategorySelect = (slug: string | null) => {
-    dispatch(fetchProducts(slug || undefined));
+    dispatch(fetchProducts(slug ?? undefined));
   };
 
   // TODO: Replace with backend `/categories/` fetch

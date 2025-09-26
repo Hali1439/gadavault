@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import Head from "next/head";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
-import { fetchProducts } from "@/store/slices/productsSlice";
+import { fetchProducts } from "@/features/products/productsSlice";
 import { apiService } from "@/services/api";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
@@ -110,8 +110,8 @@ export default function Home() {
             ) : (
               <CategoryFilter
                 categories={categories}
-                onCategoryChange={(categorySlug?: string) => {
-                  dispatch(fetchProducts(categorySlug));
+                onSelect={(categorySlug: string | null) => {
+                  dispatch(fetchProducts(categorySlug ?? undefined));
                 }}
               />
             )}

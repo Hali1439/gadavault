@@ -12,10 +12,10 @@ import {
 import storage from 'redux-persist/lib/storage';
 import { combineReducers } from 'redux';
 
-import productsReducer from './slices/productsSlice';
-import cartReducer from './slices/cartSlice';
-import userReducer from './slices/userSlice';
-import uiReducer from './slices/uiSlice';
+import cartReducer from "@/features/cart/cartSlice";
+import productsReducer from "@/features/products/productsSlice";
+import userReducer from "@/features/user/userSlice";
+import uiReducer from "@/features/ui/uiSlice";
 
 const rootReducer = combineReducers({
   products: productsReducer,

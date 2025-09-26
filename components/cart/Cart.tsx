@@ -1,7 +1,7 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "@/store/store";
-import { removeFromCart, clearCart } from "@/store/slices/cartSlice";
+import { removeFromCart, clearCart } from "@/features/cart/cartSlice";
 import CartItem from "./CartItem";
 import Button from "@/components/common/Button";
 
