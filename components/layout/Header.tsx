@@ -27,6 +27,7 @@ import { toggleMobileMenu } from '@/store/slices/uiSlice';
 import Button from '@/components/common/Button';
 import Avatar from '@/components/common/Avatar';
 
+
 const Header = () => {
   const [showGrid, setShowGrid] = useState(false);
   const [showNotifications, setShowNotifications] = useState(false);
