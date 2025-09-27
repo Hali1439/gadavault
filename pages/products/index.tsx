@@ -6,10 +6,12 @@ import { fetchProducts } from "@/features/products/productsSlice";
 import ProductsList from "@/components/products/ProductsList";
 import CategoryFilter from "@/components/products/CategoryFilter";
 import { Product } from "@/types/product";
+import Header from "@/components/layout/Header";
+import Footer from "@/components/layout/Footer";
 
 export default function ProductCatalog() {
   const dispatch = useAppDispatch();
-  const { items: products, loading, error } = useAppSelector(
+  const { items: products = [], loading, error } = useAppSelector(
     (state) => state.products
   );
 
@@ -24,7 +26,7 @@ export default function ProductCatalog() {
   // TODO: Replace with backend `/categories/` fetch
   const categories: { id: string; name: string; slug: string }[] = [
     { id: "1", name: "Clothing", slug: "clothing" },
-    { id: "2", name: "Accessories", slug: "accessories" },
+    { id: "2", name: "Cultural Artifact", slug: "Cultural Artifact" },
   ];
 
   return (
@@ -36,6 +38,8 @@ export default function ProductCatalog() {
           content="Explore curated African fashion products on GadaVault."
         />
       </Head>
+
+      <Header />
 
       <main className="min-h-screen bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
@@ -60,6 +64,8 @@ export default function ProductCatalog() {
           <ProductsList products={products as Product[]} />
         </div>
       </main>
+
+      <Footer />
     </>
   );
 }

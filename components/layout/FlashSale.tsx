@@ -1,10 +1,35 @@
+// components/layout/FlashSale.tsx
 import FlashSaleCard, { FlashSaleProduct } from "@/components/products/FlashSaleCard";
 
 const flashSaleProducts: FlashSaleProduct[] = [
-  { name: "Qorii", price: 120, oldPrice: 160, discount: 40, image: "/qorii.png" },
-  { name: "Madiba Shirt", price: 96, oldPrice: 116, discount: 5, image: "/Madiba Shirt (South Africa).png" },
-  { name: "Zulu Shield and Spear", price: 370, oldPrice: 400, discount: 10, image: "/Zulu shield and spear.png" },
-  { name: "Liputa (DRC)", price: 375, oldPrice: 400, discount: 25, image: "/Liputa (DRC).png" },
+  {
+    name: "Qorii",
+    price: 120,
+    oldPrice: 160,
+    discount: 40,
+    image: "https://res.cloudinary.com/dxmxjdval/image/upload/v1757544835/qori_poll60.png",
+  },
+  {
+    name: "Madiba Shirt",
+    price: 96,
+    oldPrice: 116,
+    discount: 5,
+    image: "https://res.cloudinary.com/dxmxjdval/image/upload/v1757630241/Madiba_Shirt_xph6qn.jpg",
+  },
+  {
+    name: "Zulu Shield and Spear",
+    price: 370,
+    oldPrice: 400,
+    discount: 10,
+    image: "https://res.cloudinary.com/dxmxjdval/image/upload/v1757897228/Zulu_shield_and_spear_kdoufo.jpg",
+  },
+  {
+    name: "Liputa (DRC)",
+    price: 375,
+    oldPrice: 400,
+    discount: 25,
+    image: "https://res.cloudinary.com/dxmxjdval/image/upload/v1757897077/Liputa_DRC_tbj1un.jpg",
+  },
 ];
 
 export default function FlashSale() {

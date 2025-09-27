@@ -49,7 +49,7 @@ export const registerUser = async (payload: { email: string; password: string })
 };
 
 // ---------------- Contact ----------------
-export const sendContact = async (payload: { name: string; email: string; message: string }) => {
+export const sendContact = async (payload: { first_name: string; last_name: string; email: string; subject: string; message: string }) => {
   try {
     const { data } = await api.post("/users/contact/", payload);
     return data;

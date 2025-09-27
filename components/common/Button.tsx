@@ -5,6 +5,8 @@ export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElemen
   variant?: "primary" | "secondary" | "danger" | "ghost" | "outline";
   size?: "sm" | "md" | "lg";
   isLoading?: boolean;
+  href?: string;
+  asChild?: boolean;
 }
 
 const baseStyles = "inline-flex items-center justify-center rounded-lg font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed";
@@ -30,12 +32,24 @@ const Button: React.FC<ButtonProps> = ({
   isLoading = false,
   className,
   disabled,
+  href,
+  asChild,
   ...props
 }) => {
+  const buttonClasses = clsx(baseStyles, variants[variant], sizes[size], className);
+
+  if (asChild && React.isValidElement(children)) {
+    return React.cloneElement(children, {
+      className: clsx((children.props as any).className, buttonClasses),
+      ...(disabled && { 'aria-disabled': true }),
+      ...props,
+    } as any);
+  }
+
   return (
     <button
-      className={clsx(baseStyles, variants[variant], sizes[size], className)}
       disabled={disabled || isLoading}
+      className={buttonClasses}
       {...props}
     >
       {isLoading && (

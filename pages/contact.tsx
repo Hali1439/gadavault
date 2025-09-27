@@ -4,7 +4,7 @@ import Footer from "@/components/layout/Footer";
 import { sendContact } from "@/utils/api";
 
 export default function ContactPage() {
-  const [formData, setFormData] = useState({ name: "", email: "", subject: "", message: "" });
+  const [formData, setFormData] = useState({ firstName: "", lastName: "", email: "", subject: "", message: "" });
   const [status, setStatus] = useState<string | null>(null);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -14,9 +14,16 @@ export default function ContactPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      await sendContact(formData);
+      const payload = {
+        first_name: formData.firstName,
+        last_name: formData.lastName,
+        email: formData.email,
+        subject: formData.subject,
+        message: formData.message
+      };
+      await sendContact(payload);
       setStatus("✅ Message sent successfully!");
-      setFormData({ name: "", email: "", subject: "", message: "" });
+      setFormData({ firstName: "", lastName: "", email: "", subject: "", message: "" });
     } catch (err) {
       setStatus("❌ Failed to send message.");
     }
@@ -28,7 +35,8 @@ export default function ContactPage() {
       <main className="container mx-auto py-10">
         <h1 className="text-2xl font-bold mb-4">Contact Us</h1>
         <form onSubmit={handleSubmit} className="flex flex-col gap-4 max-w-md">
-          <input type="text" name="name" value={formData.name} onChange={handleChange} placeholder="Your Name" className="border p-2 rounded" required />
+          <input type="text" name="firstName" value={formData.firstName} onChange={handleChange} placeholder="First Name" className="border p-2 rounded" required />
+          <input type="text" name="lastName" value={formData.lastName} onChange={handleChange} placeholder="Last Name" className="border p-2 rounded" required />
           <input type="email" name="email" value={formData.email} onChange={handleChange} placeholder="Your Email" className="border p-2 rounded" required />
           <input type="text" name="subject" value={formData.subject} onChange={handleChange} placeholder="Subject" className="border p-2 rounded" required />
           <textarea name="message" value={formData.message} onChange={handleChange} placeholder="Your Message" className="border p-2 rounded" rows={5} required />

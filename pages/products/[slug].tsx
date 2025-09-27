@@ -1,3 +1,4 @@
+// pages/products/[slug].tsx
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
@@ -19,6 +20,31 @@ export default function ProductDetail() {
       dispatch(fetchProductBySlug(slug));
     }
   }, [dispatch, slug]);
+
+  // helper to get image url & alt from different possible shapes
+  const getImage = () => {
+    if (!selectedProduct) return { url: "/default-product.png", alt: "Product" };
+    // preferred: images array
+    if (Array.isArray((selectedProduct as any).images) && (selectedProduct as any).images.length > 0) {
+      const img = (selectedProduct as any).images[0];
+      return { url: img.url || "/default-product.png", alt: img.alt || selectedProduct.name };
+    }
+    // fallback: single image_url
+    if ((selectedProduct as any).image_url) {
+      return { url: (selectedProduct as any).image_url, alt: selectedProduct.name };
+    }
+    return { url: "/default-product.png", alt: selectedProduct.name };
+  };
+
+  const getPrice = () => {
+    if (!selectedProduct) return "0.00";
+    const raw = (selectedProduct as any).price;
+    const n = typeof raw === "number" ? raw : Number(raw);
+    return Number.isFinite(n) ? n.toFixed(2) : "0.00";
+  };
+
+  const image = getImage();
+  const priceStr = getPrice();
 
   return (
     <>
@@ -50,8 +76,8 @@ export default function ProductDetail() {
               {/* Product Image */}
               <div className="flex justify-center relative w-full h-[500px]">
                 <Image
-                  src={selectedProduct.images[0]?.url || "/default-product.png"}
-                  alt={selectedProduct.images[0]?.alt || selectedProduct.name}
+                  src={image.url}
+                  alt={image.alt || selectedProduct.name}
                   fill
                   style={{ objectFit: "cover" }}
                   className="rounded-2xl shadow-lg"
@@ -67,7 +93,7 @@ export default function ProductDetail() {
                   {selectedProduct.description}
                 </p>
                 <p className="text-2xl font-semibold text-green-700 mb-6">
-                  ${selectedProduct.price.toFixed(2)}
+                  ${priceStr}
                 </p>
 
                 <button
@@ -83,6 +109,10 @@ export default function ProductDetail() {
                 </button>
               </div>
             </div>
+          )}
+
+          {!loading && !selectedProduct && !error && (
+            <p className="text-gray-500">Product not found.</p>
           )}
         </div>
       </div>

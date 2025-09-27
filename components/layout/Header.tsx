@@ -33,6 +33,7 @@ const Header = () => {
   const [showNotifications, setShowNotifications] = useState(false);
   const [showProfile, setShowProfile] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
+  const [isHydrated, setIsHydrated] = useState(false);
   const gridRef = useRef<HTMLDivElement>(null);
   const notificationsRef = useRef<HTMLDivElement>(null);
   const profileRef = useRef<HTMLDivElement>(null);
@@ -42,6 +43,10 @@ const Header = () => {
   const { currentUser } = useSelector((state: RootState) => state.user);
   const { items: cartItems } = useSelector((state: RootState) => state.cart);
   const { mobileMenuOpen } = useSelector((state: RootState) => state.ui);
+
+  useEffect(() => {
+    setIsHydrated(true);
+  }, []);
 
   const menuItems = [
     { href: '/designers', icon: Paintbrush, label: 'Designers' },
@@ -80,6 +85,187 @@ const Header = () => {
     setShowProfile(false);
     router.push('/');
   };
+
+  if (!isHydrated) {
+    return (
+      <header className="bg-white shadow-sm border-b border-gray-100 sticky top-0 z-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-center h-16">
+            {/* Logo */}
+            <Link href="/" className="flex items-center space-x-2">
+              <div className="w-8 h-8 bg-gradient-to-r from-purple-600 to-pink-600 rounded-lg flex items-center justify-center">
+                <span className="text-white font-bold text-lg">G</span>
+              </div>
+              <span className="text-xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
+                GadaVault
+              </span>
+            </Link>
+
+            {/* Search Bar - Desktop */}
+            <div className="hidden md:flex flex-1 max-w-lg mx-8">
+              <form onSubmit={handleSearch} className="relative w-full">
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+                <input
+                  type="text"
+                  placeholder="Search products, designers..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                />
+              </form>
+            </div>
+
+            {/* Right-side icons */}
+            <div className="flex items-center space-x-4">
+              {/* Search Icon - Mobile */}
+              <button className="md:hidden p-2 text-gray-600 hover:text-purple-600">
+                <Search className="w-5 h-5" />
+              </button>
+
+              {/* Grid Menu */}
+              <div className="relative" ref={gridRef}>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => setShowGrid(!showGrid)}
+                  className="p-2 text-gray-600 hover:text-purple-600"
+                >
+                  <Grid className="w-5 h-5" />
+                </Button>
+                
+                {showGrid && (
+                  <div className="absolute right-0 mt-2 w-64 bg-white rounded-lg shadow-lg border border-gray-200 p-4">
+                    <div className="grid grid-cols-2 gap-3">
+                      {menuItems.map((item, index) => {
+                        const Icon = item.icon;
+                        return (
+                          <Link
+                            key={index}
+                            href={item.href}
+                            className="flex flex-col items-center p-3 rounded-lg hover:bg-gray-50 transition-colors"
+                            onClick={() => setShowGrid(false)}
+                          >
+                            <Icon className="w-6 h-6 text-gray-600 mb-2" />
+                            <span className="text-sm font-medium text-gray-700">{item.label}</span>
+                          </Link>
+                        );
+                      })}
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              {/* Notifications */}
+              <div className="relative" ref={notificationsRef}>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => setShowNotifications(!showNotifications)}
+                  className="p-2 text-gray-600 hover:text-purple-600 relative"
+                >
+                  <Bell className="w-5 h-5" />
+                  <span className="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full"></span>
+                </Button>
+                
+                {showNotifications && (
+                  <div className="absolute right-0 mt-2 w-80 bg-white rounded-lg shadow-lg border border-gray-200">
+                    <div className="p-4 border-b border-gray-200">
+                      <h3 className="font-semibold text-gray-900">Notifications</h3>
+                    </div>
+                    <div className="max-h-96 overflow-y-auto">
+                      {[
+                        { message: '🔥 New portfolio uploaded by Amina', time: '2 min ago' },
+                        { message: '💡 Your idea got 12 likes', time: '1 hour ago' },
+                        { message: '🎉 Welcome to GadaVault!', time: '2 days ago' },
+                      ].map((notification, index) => (
+                        <div key={index} className="p-4 border-b border-gray-100 last:border-b-0 hover:bg-gray-50">
+                          <p className="text-sm text-gray-800">{notification.message}</p>
+                          <span className="text-xs text-gray-500">{notification.time}</span>
+                        </div>
+                      ))}
+                    </div>
+                    <div className="p-2 border-t border-gray-200">
+                      <button className="w-full text-center text-sm text-purple-600 hover:text-purple-700 py-2">
+                        Mark all as read
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              {/* Cart */}
+              <Link href="/cart" className="relative p-2 text-gray-600 hover:text-purple-600">
+                <ShoppingCart className="w-5 h-5" />
+                {cartItems.length > 0 && (
+                  <span className="absolute -top-1 -right-1 w-5 h-5 bg-purple-600 text-white text-xs rounded-full flex items-center justify-center">
+                    {cartItems.length}
+                  </span>
+                )}
+              </Link>
+
+              {/* User Profile - Hydration Skeleton: Render guest state */}
+              <div className="flex items-center space-x-2">
+                <Link
+                  href="/login"
+                  className="inline-flex items-center justify-center rounded-lg font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed px-3 py-1.5 text-sm bg-transparent text-gray-700 hover:bg-gray-100 focus:ring-gray-300"
+                >
+                  Login
+                </Link>
+                <Link
+                  href="/signup"
+                  className="inline-flex items-center justify-center rounded-lg font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed px-3 py-1.5 text-sm bg-purple-600 text-white hover:bg-purple-700 focus:ring-purple-500"
+                >
+                  Sign Up
+                </Link>
+              </div>
+
+              {/* Mobile Menu Button */}
+              <button
+                className="md:hidden p-2 text-gray-600 hover:text-purple-600"
+                onClick={() => dispatch(toggleMobileMenu())}
+              >
+                {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+              </button>
+            </div>
+          </div>
+        </div>
+
+        {/* Mobile Menu */}
+        {mobileMenuOpen && (
+          <div className="md:hidden border-t border-gray-200 bg-white">
+            <div className="px-4 py-3">
+              <form onSubmit={handleSearch} className="relative mb-3">
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+                <input
+                  type="text"
+                  placeholder="Search..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500"
+                />
+              </form>
+              <nav className="grid gap-2">
+                {menuItems.map((item, index) => {
+                  const Icon = item.icon;
+                  return (
+                    <Link
+                      key={index}
+                      href={item.href}
+                      className="flex items-center px-3 py-2 text-gray-700 rounded-lg hover:bg-gray-50"
+                      onClick={() => dispatch(toggleMobileMenu())}
+                    >
+                      <Icon className="w-5 h-5 mr-3" />
+                      {item.label}
+                    </Link>
+                  );
+                })}
+              </nav>
+            </div>
+          </div>
+        )}
+      </header>
+    );
+  }
 
   return (
     <header className="bg-white shadow-sm border-b border-gray-100 sticky top-0 z-50">
@@ -264,15 +450,17 @@ const Header = () => {
               </div>
             ) : (
               <div className="flex items-center space-x-2">
-                <Link href="/login">
-                  <Button variant="ghost" size="sm">
-                    Login
-                  </Button>
+                <Link
+                  href="/login"
+                  className="inline-flex items-center justify-center rounded-lg font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed px-3 py-1.5 text-sm bg-transparent text-gray-700 hover:bg-gray-100 focus:ring-gray-300"
+                >
+                  Login
                 </Link>
-                <Link href="/signup">
-                  <Button variant="primary" size="sm">
-                    Sign Up
-                  </Button>
+                <Link
+                  href="/signup"
+                  className="inline-flex items-center justify-center rounded-lg font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed px-3 py-1.5 text-sm bg-purple-600 text-white hover:bg-purple-700 focus:ring-purple-500"
+                >
+                  Sign Up
                 </Link>
               </div>
             )}

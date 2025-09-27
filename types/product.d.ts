@@ -27,6 +27,7 @@ export interface Product {
   published: boolean;
   images: ProductImage[];
   category: ProductCategory;
+  categorySlug: string;
   attributes?: Record<string, unknown>;
   createdAt: string;
   updatedAt: string;

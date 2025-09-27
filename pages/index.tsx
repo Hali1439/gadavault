@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Product } from "@/types/product";
 import Head from "next/head";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { fetchProducts } from "@/features/products/productsSlice";
@@ -20,7 +21,7 @@ interface ProductCategory {
 
 export default function Home() {
   const dispatch = useAppDispatch();
-  const { items: products, loading, error } = useAppSelector(
+  const { items: products = [], loading, error } = useAppSelector(
     (state) => state.products
   );
 
@@ -50,9 +51,9 @@ export default function Home() {
     loadCategories();
   }, [dispatch]);
 
-  const featuredProducts = products
-    .filter((product) => product.published)
-    .slice(0, 8);
+  const featuredProducts = (products || [])
+  .filter((product: Product | undefined) => product?.published) // Add type assertion here
+  .slice(0, 8);
 
   return (
     <>
