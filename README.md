@@ -1,40 +1,53 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/pages/api-reference/create-next-app).
+# 🛍️ GadaVault Frontend
 
-## Getting Started
+![GitHub repo size](https://img.shields.io/github/repo-size/Hali1439/gadavault-frontend)
+![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=flat&logo=typescript&logoColor=white)
+![Next JS](https://img.shields.io/badge/Next.js-000000?style=flat&logo=next.js&logoColor=white)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-06B6D4?style=flat&logo=tailwind-css&logoColor=white)
+![Vercel](https://img.shields.io/badge/Deployed%20on-Vercel-black?style=flat&logo=vercel)
+---
+![Gadavault](https://gadavault.vercel.app/)
+## 🌟 Project Overview
 
-First, run the development server:
+GadaVault is a modern, responsive e-commerce platform dedicated to connecting consumers with unique, high-quality products from independent designers and artisans. The frontend application is built to deliver a seamless, intuitive, and visually appealing user experience, ensuring that quality craftsmanship is showcased effectively.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+### The Problem Solved
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+In today's crowded digital marketplace, authentic artisan goods often get lost among mass-produced items. GadaVault addresses this by providing a clean, curated platform that elevates the designer's story, allowing users to browse, search, and purchase unique products with confidence and trust.
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+## ✨ Key Features
 
-[API routes](https://nextjs.org/docs/pages/building-your-application/routing/api-routes) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+### User Experience (UX) Features
+* **Intuitive Navigation:** Clean UI/UX designed for effortless product discovery and browsing.
+* **Dynamic Filtering:** Advanced filtering and search functionality on the Product page for efficient shopping.
+* **Dedicated Pages:** Separate pages for **Designers**, **Products**, and a **Blog** for content engagement.
+* **Responsive Design:** Fully optimized for desktop, tablet, and mobile viewing.
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/pages/building-your-application/routing/api-routes) instead of React pages.
+### Technical Highlights
+* **Next.js Framework:** Utilizes Server-Side Rendering (SSR) and Static Site Generation (SSG) for fast initial loads and excellent SEO.
+* **TypeScript:** Ensures code robustness and maintainability across the entire application.
+* **Atomic Component Architecture:** Built with reusable components using a utility-first approach (Tailwind CSS).
+* **API Integration:** Secure communication with the Django REST API using an efficient data-fetching solution (e.g., RTK Query or Apollo Client).
 
-This project uses [`next/font`](https://nextjs.org/docs/pages/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 🛠️ Technology Stack
 
-## Learn More
+| Category | Technology | Purpose |
+| :--- | :--- | :--- |
+| **Framework** | [Next.js](https://nextjs.org/) | React framework for production-grade applications |
+| **Language** | [TypeScript](https://www.typescriptlang.org/) | Type-safe programming |
+| **Styling** | [Tailwind CSS](https://tailwindcss.com/) | Utility-first CSS framework |
+| **State/Data** | *[Specify your library, e.g., React Context, SWR, Apollo]* | Handling API data and application state |
+| **Deployment**| [Vercel](https://vercel.com/) | Hosting and Continuous Deployment (CI/CD) |
 
-To learn more about Next.js, take a look at the following resources:
+## 🚀 Getting Started (Local Development)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn-pages-router) - an interactive Next.js tutorial.
+Follow these steps to get a local copy of the project running on your machine.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Prerequisites
+* Node.js (v18+)
+* npm or yarn
 
-## Deploy on Vercel
+### Installation
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/pages/building-your-application/deploying) for more details.
+1.  **Clone the repository:**
+    
